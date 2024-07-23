@@ -8,10 +8,10 @@
 ## How to run application
 
 ```bash
-make run
+dotnet run
 ```
 or:
 
 ```bash
-make watch
+dotnet watch
 ```

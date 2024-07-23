@@ -11,7 +11,7 @@ public static class EndpointsMapperExtension
 
     private static void MapBananaEndpoints(IEndpointRouteBuilder builder)
     {
-        var groupBuilder = builder.MapGroup("api/lohs")
+        var groupBuilder = builder.MapGroup("api/generate-large-strings")
             .WithTags("Lohs");
 
         groupBuilder.GenerateLargeStrings("/");

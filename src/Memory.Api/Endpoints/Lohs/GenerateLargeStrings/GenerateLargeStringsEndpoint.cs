@@ -3,12 +3,16 @@ using Microsoft.OpenApi.Models;
 
 namespace Memory.Api.Endpoints.Lohs.GenerateLargeStrings;
 
-public static class CreateBananaEndpoint
+public static class GenerateLargeStringsEndpoint
 {
     public static void GenerateLargeStrings(this IEndpointRouteBuilder builder, string routePattern)
     {
-        builder.MapPost(routePattern, () =>
+        builder.MapPost(routePattern, (ILoggerFactory loggerFactory) =>
             {
+                var logger = loggerFactory.CreateLogger(nameof(GenerateLargeStringsEndpoint));
+                logger.LogInformation(
+                    $"TotalAvailableMemoryBytes: {GC.GetGCMemoryInfo().TotalAvailableMemoryBytes}");
+
                 var list = new List<string>();
                 var counter = 1;
 
@@ -19,10 +23,8 @@ public static class CreateBananaEndpoint
                         length: 10_000_000);
 
                     list.Add(randomString);
+                    logger.LogInformation("Added string " + counter);
 
-                    Console.WriteLine(DateTime.Now);
-                    Console.WriteLine($"TotalCommittedBytes: {GC.GetGCMemoryInfo().TotalCommittedBytes}");
-                    Console.WriteLine($"TotalAvailableMemoryBytes: {GC.GetGCMemoryInfo().TotalAvailableMemoryBytes}");
                     counter++;
 
                     Thread.Sleep(500);
@@ -33,7 +35,7 @@ public static class CreateBananaEndpoint
                     }
                 }
 
-                Console.WriteLine("Broke the loop");
+                logger.LogInformation("Broke the loop");
 
                 return Results.Ok();
             })
