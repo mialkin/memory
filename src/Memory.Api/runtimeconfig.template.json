@@ -1,5 +1,2 @@
 {
-  "configProperties": {
-    "System.GC.HeapHardLimit": 300000000
-  }
 }
