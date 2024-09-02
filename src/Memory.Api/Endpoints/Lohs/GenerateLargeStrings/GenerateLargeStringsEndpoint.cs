@@ -8,11 +8,13 @@ public static class GenerateLargeStringsEndpoint
     {
         builder.MapPost(routePattern, () =>
             {
-                var array = new Class[10_000_000];
-                for (var i = 0; i < 10_000_000; i++)
-                {
-                    array[i] = new Class { Id = i };
-                }
+                new ClassWithFinalizer();
+                Console.WriteLine("Start collecting garbage");
+                GC.Collect();
+
+                Console.WriteLine("Start waiting pending finalizers");
+                GC.WaitForPendingFinalizers();
+                Console.WriteLine("End waiting pending finalizers");
 
                 return Results.Ok();
             })
